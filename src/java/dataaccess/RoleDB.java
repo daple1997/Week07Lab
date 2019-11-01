@@ -41,5 +41,13 @@ public class RoleDB {
             connectionPool.freeConnection(connection);
         }
     }
+    
+    public Object getAll(){
+        
+        
+        
+        
+        return null;
+    }
 
 }
