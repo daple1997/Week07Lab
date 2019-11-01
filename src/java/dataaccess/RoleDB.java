@@ -107,5 +107,21 @@ public class RoleDB {
             connectionPool.freeConnection(connection);
         }
     }
+    
+    public void update(Role role) throws SQLException{
+        ConnectionPool connectionPool = null;
+        Connection connection = null;
+        try {
+            connectionPool = ConnectionPool.getInstance();
+            connection = connectionPool.getConnection();
 
+            
+            String preparedQuery = "Update";
+            PreparedStatement ps = connection.prepareStatement(preparedQuery);
+            ps.setInt (1, role.getRoleID());
+            ResultSet rs = ps.executeQuery();            
+        } finally {
+            connectionPool.freeConnection(connection);
+        }
+    }
 }
