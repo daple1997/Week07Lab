@@ -85,11 +85,24 @@ public class RoleDB {
             PreparedStatement ps = connection.prepareStatement(preparedQuery);
             ps.setInt (1, role.getRoleID());
             ps.setString (2, role.getRoleName());
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();            
+        } finally {
+            connectionPool.freeConnection(connection);
+        }
+    }
+    
+    public void delete(Role role) throws SQLException{
+        ConnectionPool connectionPool = null;
+        Connection connection = null;
+        try {
+            connectionPool = ConnectionPool.getInstance();
+            connection = connectionPool.getConnection();
 
             
-
-            
+            String preparedQuery = "DELETE FROM role_table WHERE RoleID = ?";
+            PreparedStatement ps = connection.prepareStatement(preparedQuery);
+            ps.setInt (1, role.getRoleID());
+            ResultSet rs = ps.executeQuery();            
         } finally {
             connectionPool.freeConnection(connection);
         }
