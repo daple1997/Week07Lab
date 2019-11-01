@@ -42,12 +42,34 @@ public class RoleDB {
         }
     }
     
-    public Object getAll(){
+    public Role getAll() throws SQLException{
+        
+        ConnectionPool connectionPool = null;
+        Connection connection = null;
+        Role role = null;
+        try {
+            connectionPool = ConnectionPool.getInstance();
+            connection = connectionPool.getConnection();
+
+            
+            String preparedQuery = "SELECT RoleID, RoleName FROM role_table";
+            PreparedStatement ps = connection.prepareStatement(preparedQuery);
+            
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int roleId = rs.getInt(1);
+                String roleName = rs.getString(2);
+                role = new Role(roleId, roleName);
+            }
+
+            return role;
+        } finally {
+            connectionPool.freeConnection(connection);
+        }
         
         
         
-        
-        return null;
     }
 
 }
