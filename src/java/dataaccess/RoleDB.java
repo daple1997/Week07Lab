@@ -116,9 +116,9 @@ public class RoleDB {
             connection = connectionPool.getConnection();
 
             
-            String preparedQuery = "Update";
+            String preparedQuery = "Update role_table roleName = ? Where roleId = ?";
             PreparedStatement ps = connection.prepareStatement(preparedQuery);
-            ps.setInt (1, role.getRoleID());
+            ps.setString (1, role.getRoleID());
             ResultSet rs = ps.executeQuery();            
         } finally {
             connectionPool.freeConnection(connection);
