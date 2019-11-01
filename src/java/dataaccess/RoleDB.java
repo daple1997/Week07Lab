@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import models.Role;
 import models.User;
 
@@ -42,33 +43,36 @@ public class RoleDB {
         }
     }
     
-    public Role getAll() throws SQLException{
+    public ArrayList<Role> getAll() throws SQLException{
         
         ConnectionPool connectionPool = null;
         Connection connection = null;
         Role role = null;
+        ArrayList<Role> roleList = new ArrayList<>();
         try {
             connectionPool = ConnectionPool.getInstance();
             connection = connectionPool.getConnection();
-
+            
             
             String preparedQuery = "SELECT RoleID, RoleName FROM role_table";
             PreparedStatement ps = connection.prepareStatement(preparedQuery);
             
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
                 int roleId = rs.getInt(1);
                 String roleName = rs.getString(2);
                 role = new Role(roleId, roleName);
+                roleList.add(role);
             }
 
-            return role;
+            return roleList;
         } finally {
             connectionPool.freeConnection(connection);
-        }
-        
-        
+        }        
+    }
+    
+    public void insert(Role role){
         
     }
 
