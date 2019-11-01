@@ -72,8 +72,27 @@ public class RoleDB {
         }        
     }
     
-    public void insert(Role role){
-        
+    public void insert(Role role) throws SQLException{
+        ConnectionPool connectionPool = null;
+        Connection connection = null;
+        try {
+            connectionPool = ConnectionPool.getInstance();
+            connection = connectionPool.getConnection();
+
+            
+            String preparedQuery = "insert into role_table (roleID, roleName)" +
+                " values (?, ?)";
+            PreparedStatement ps = connection.prepareStatement(preparedQuery);
+            ps.setInt (1, role.getRoleID());
+            ps.setString (2, role.getRoleName());
+            ResultSet rs = ps.executeQuery();
+
+            
+
+            
+        } finally {
+            connectionPool.freeConnection(connection);
+        }
     }
 
 }
